@@ -18,10 +18,15 @@ if (process.env.NODE_ENV==='production'){
     app.use(express.static('client/build'))
 }
 
-const httpServer = createServer(app);
-httpServer.listen(PORT);
+// const httpServer = createServer(app);
+// httpServer.listen(PORT);
 
-const io = new Server(httpServer)
+const io = new Server(PORT,{
+    cors:{
+        origin:'http://localhost:3000',
+        methods:['GET','POST']
+    }
+})
 
 io.on('connection',socket => {
     socket.on('get-document', async documentId=>{
